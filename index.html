@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>记事本</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <nav class="header">
+        <h1>记事本</h1>
+    </nav>
+
+    <nav id="app">
+        <nav class="top">
+            <input type="text" name="text" id="text" placeholder="请输入任务" v-model="text">
+            <button @click="add">添加任务</button>
+        </nav>
+        <nav class="Body_bottom">
+            <ul>
+                <li v-for="(item,index) in list" :key="item.id">
+                    <span class="id">{{ item.id }}</span>
+                    <span class="content">{{ item.content }}</span>
+                    <span class="del" @click="del(item.id)"><img src="./images/del.png" alt=""></span>
+                </li>
+            </ul>
+            <nav class="Content_bottom">
+                <nav><span>合计：</span><span class="num">{{list.length}}</span></nav>
+                <button @click="clean" v-show="list.length > 0">清空任务</button>
+            </nav>
+        </nav>
+    </nav>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                text: '',
+                list: [
+                ]
+            },
+            methods: {
+                del(id) {
+                    this.list = this.list.filter(item => item.id !== id)
+                },
+                add() {
+                    if (this.text === '') {
+                        alert('请输入任务名称')
+                    } else {
+                        this.list.push({
+                            id: this.list.length + 1,
+                            content: this.text
+                        })
+                        this.text = ''
+                    }
+                },
+                clean() {
+                    this.list = []
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
